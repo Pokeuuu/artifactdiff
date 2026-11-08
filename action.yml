@@ -13,82 +13,82 @@ branding:
 
 inputs:
   base:
-    description: Base commit (default: the pull request base SHA).
+    description: "Base commit (default: the pull request base SHA)."
     required: false
     default: ''
   head:
-    description: Head commit (default: the pull request head SHA).
+    description: "Head commit (default: the pull request head SHA)."
     required: false
     default: ''
   paths:
-    description: Only compare files matching these globs (newline- or comma-separated). Default: all.
+    description: "Only compare files matching these globs (newline- or comma-separated). Default: all."
     required: false
     default: ''
   exclude:
-    description: Globs to skip (added to `exclude` from artifactdiff.toml).
+    description: "Globs to skip (added to `exclude` from artifactdiff.toml)."
     required: false
     default: ''
   report-format:
-    description: Format shown in logs; JSON, Markdown and HTML reports are always written to the artifact.
+    description: "Format shown in logs; JSON, Markdown and HTML reports are always written to the artifact."
     required: false
     default: markdown
   comment-on-pr:
-    description: Create or update a single pull-request comment with the Markdown report.
+    description: "Create or update a single pull-request comment with the Markdown report."
     required: false
     default: 'true'
   fail-on:
-    description: Fail the job when a change at or above this severity is found (info, low, medium, high).
+    description: "Fail the job when a change at or above this severity is found (info, low, medium, high)."
     required: false
     default: ''
   fail-on-error:
-    description: Fail the job when a comparison errors (corrupt or unreadable artifact).
+    description: "Fail the job when a comparison errors (corrupt or unreadable artifact)."
     required: false
     default: 'false'
   max-files:
-    description: Maximum number of artifacts to compare.
+    description: "Maximum number of artifacts to compare."
     required: false
     default: '50'
   max-file-size-mb:
-    description: Skip artifacts larger than this.
+    description: "Skip artifacts larger than this."
     required: false
     default: '200'
   include-text:
-    description: Also report plain text/unknown files (normally left to the regular GitHub diff).
+    description: "Also report plain text/unknown files (normally left to the regular GitHub diff)."
     required: false
     default: 'false'
   upload-artifact:
-    description: Upload the HTML/JSON/Markdown reports as a workflow artifact.
+    description: "Upload the HTML/JSON/Markdown reports as a workflow artifact."
     required: false
     default: 'true'
   artifact-name:
-    description: Name of the uploaded workflow artifact.
+    description: "Name of the uploaded workflow artifact."
     required: false
     default: artifactdiff-report
   extras:
-    description: ArtifactDiff extras to install (comma-separated, e.g. "tabular,image"). Default installs all formats.
+    description: "ArtifactDiff extras to install (comma-separated, e.g. \"tabular,image\"). Default installs all formats."
     required: false
     default: tabular,image,audio,pdf,gltf,safetensors
   python-version:
-    description: Python version used to run ArtifactDiff.
+    description: "Python version used to run ArtifactDiff."
     required: false
     default: '3.12'
   github-token:
-    description: Token used to post the comment.
+    description: "Token used to post the comment."
     required: false
     default: ${{ github.token }}
 
 outputs:
   total-changes:
-    description: Total number of changes across all artifacts.
+    description: "Total number of changes across all artifacts."
     value: ${{ steps.run.outputs.total-changes }}
   max-severity:
-    description: Highest change severity (empty if none).
+    description: "Highest change severity (empty if none)."
     value: ${{ steps.run.outputs.max-severity }}
   changed-artifacts:
-    description: Number of artifacts in the report.
+    description: "Number of artifacts in the report."
     value: ${{ steps.run.outputs.changed-artifacts }}
   report-dir:
-    description: Directory containing report.md, report.html and report.json.
+    description: "Directory containing report.md, report.html and report.json."
     value: ${{ steps.run.outputs.report-dir }}
 
 runs:

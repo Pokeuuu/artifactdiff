@@ -63,6 +63,8 @@ dev = [
   "ruff>=0.8",
   "mypy>=1.13",
   "pre-commit>=4",
+  "pyyaml>=6",
+  "actionlint-py>=1.7",
 ]
 
 [tool.hatch.build.targets.wheel]

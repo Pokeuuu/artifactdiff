@@ -55,7 +55,7 @@ jobs:
         with:
           name: dist
           path: dist/
-      - name: Create the release and move the major tag used by `uses: owner/artifactdiff@v1`
+      - name: "Create the release and move the major tag (v1) used by the GitHub Action"
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

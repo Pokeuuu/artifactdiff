@@ -262,3 +262,40 @@ def test_regression_oversized_rename_keeps_renamed_status(
     entries = {e["path"]: e for e in json.loads((out / "report.json").read_text(encoding="utf-8"))["entries"]}
     assert entries["renamed.sqlite"]["file_status"] == "renamed"
     assert entries["renamed.sqlite"]["old_path"] == "rename-me.sqlite"
+
+
+def test_regression_yaml_files_parse() -> None:
+    # Unquoted "key: value" text inside descriptions once made action.yml unparseable on GitHub.
+    yaml = pytest.importorskip("yaml")
+    files = [
+        ROOT / "action.yml",
+        ROOT / "docker-compose.yml",
+        ROOT / "examples" / "workflows" / "artifactdiff.yml",
+        *sorted((ROOT / ".github" / "workflows").glob("*.yml")),
+    ]
+    for f in files:
+        data = yaml.safe_load(f.read_text(encoding="utf-8"))
+        assert isinstance(data, dict), f
+    action = yaml.safe_load((ROOT / "action.yml").read_text(encoding="utf-8"))
+    assert action["runs"]["using"] == "composite"
+    for name, spec in action["inputs"].items():
+        assert isinstance(spec["description"], str) and spec["description"], name
+        env_name = "INPUT_" + name.upper().replace("-", "_")
+        uses_input = any(env_name in (step.get("env") or {}) for step in action["runs"]["steps"])
+        assert uses_input or name in ("extras", "python-version", "upload-artifact", "artifact-name", "github-token"), (
+            f"input {name} is never passed to the runner"
+        )
+
+
+def test_actionlint_workflows() -> None:
+    exe = shutil.which("actionlint")
+    if exe is None:
+        pytest.skip("actionlint not installed")
+    res = subprocess.run(
+        [exe, *map(str, sorted((ROOT / ".github" / "workflows").glob("*.yml")))],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert res.returncode == 0, res.stdout + res.stderr
