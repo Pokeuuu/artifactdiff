@@ -73,14 +73,21 @@ test('CSV comparison: data view and report download', async ({ page }) => {
 })
 
 test('history: search and delete', async ({ page }) => {
+  // Self-contained: creates its own comparison (PDF is not used by other tests) and deletes every match,
+  // so it also passes when run alone or retried.
+  await compare(page, file('pdf', 'old.pdf'), file('pdf', 'new.pdf'))
   await page.goto('/history')
   const table = page.getByTestId('history-table')
-  await expect(table.getByRole('row')).not.toHaveCount(1)
-  await page.getByLabel('Search history').fill('new.glb')
-  await expect(table.getByRole('row')).toHaveCount(2)
-  await page.getByRole('button', { name: 'Delete new.glb' }).click()
-  await page.getByRole('button', { name: 'Delete', exact: true }).click()
+  await page.getByLabel('Search history').fill('new.pdf')
+  const deleteButtons = page.getByRole('button', { name: 'Delete new.pdf' })
+  await expect(deleteButtons.first()).toBeVisible()
+  while ((await deleteButtons.count()) > 0) {
+    await deleteButtons.first().click()
+    await page.getByRole('button', { name: 'Delete', exact: true }).click()
+    await expect(page.getByRole('dialog')).toHaveCount(0)
+  }
+  await expect(table).toHaveCount(0)
   await expect(page.getByText('No matching comparisons')).toBeVisible()
   await page.goto('/')
-  await expect(page.getByText('Comparisons per day')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
 })
