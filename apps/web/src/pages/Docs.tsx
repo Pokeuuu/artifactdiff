@@ -47,7 +47,7 @@ artifactdiff plugins list`}</Code>
           </p>
         </Section>
         <Section title="GitHub Action">
-          <Code>{`- uses: actions/checkout@v4
+          <Code>{`- uses: actions/checkout@v7
   with: { fetch-depth: 0 }
 - uses: Pokeuuu/artifactdiff@v1
   with:

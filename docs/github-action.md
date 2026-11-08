@@ -14,7 +14,7 @@ jobs:
   compare:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: Pokeuuu/artifactdiff@v1
@@ -112,7 +112,7 @@ pointers and says so. To compare LFS content, check out with `lfs: true` and run
 tree copies, for example:
 
 ```yaml
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - run: |
           pip install "artifactdiff[all]"
