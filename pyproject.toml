@@ -1,0 +1,138 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "artifactdiff"
+version = "0.1.0"
+description = "The universal diff for everything Git cannot meaningfully compare."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [{ name = "ArtifactDiff contributors" }]
+keywords = ["diff", "git", "artifacts", "datasets", "safetensors", "ci", "pull-requests"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Version Control :: Git",
+  "Typing :: Typed",
+]
+# The core engine, CLI, JSON/text/binary/SQLite plugins need only these.
+dependencies = [
+  "pydantic>=2.9,<3",
+  "typer>=0.15",
+  "rich>=13.9",
+]
+
+[project.optional-dependencies]
+tabular = ["polars>=1.20", "pyarrow>=18"]
+image = ["pillow>=11", "numpy>=2.0"]
+audio = ["soundfile>=0.13", "numpy>=2.0", "pillow>=11"]
+pdf = ["pypdfium2>=4.30", "pillow>=11", "numpy>=2.0"]
+gltf = ["numpy>=2.0", "pillow>=11"]
+safetensors = ["safetensors>=0.4.5", "numpy>=2.0"]
+api = [
+  "fastapi>=0.115",
+  "uvicorn>=0.32",
+  "sqlalchemy>=2.0.36",
+  "alembic>=1.14",
+  "python-multipart>=0.0.18",
+  "pydantic-settings>=2.6",
+]
+postgres = ["psycopg[binary]>=3.2"]
+all = ["artifactdiff[tabular,image,audio,pdf,gltf,safetensors,api]"]
+
+[project.scripts]
+artifactdiff = "artifactdiff_cli.main:app"
+artifactdiff-api = "artifactdiff_api.__main__:main"
+
+[project.urls]
+Documentation = "https://github.com/Pokeuuu/artifactdiff/tree/main/docs"
+Source = "https://github.com/Pokeuuu/artifactdiff"
+Issues = "https://github.com/Pokeuuu/artifactdiff/issues"
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3",
+  "pytest-cov>=6",
+  "httpx>=0.28",
+  "ruff>=0.8",
+  "mypy>=1.13",
+  "pre-commit>=4",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+  "packages/core/src/artifactdiff",
+  "packages/plugins/src/artifactdiff_plugins",
+  "packages/sdk/src/artifactdiff_sdk",
+  "cli/src/artifactdiff_cli",
+  "apps/api/src/artifactdiff_api",
+]
+
+# `scripts/build_web.py` copies the built web UI into artifactdiff_api/web (git-ignored);
+# `artifacts` makes hatch include it in the wheel even though it is ignored by git.
+artifacts = ["apps/api/src/artifactdiff_api/web/**"]
+
+[tool.hatch.build.targets.sdist]
+include = ["packages/", "cli/", "apps/api/", "README.md", "LICENSE", "CHANGELOG.md"]
+artifacts = ["apps/api/src/artifactdiff_api/web/**"]
+exclude = ["**/node_modules", "**/__pycache__"]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "examples/plugins"]
+addopts = "-ra --strict-markers"
+markers = [
+  "slow: large-input / memory tests (deselect with -m 'not slow')",
+]
+filterwarnings = [
+  "error::pytest.PytestUnraisableExceptionWarning",
+  # starlette suggests httpx2 for its TestClient; httpx is still supported
+  "ignore:Using `httpx` with `starlette.testclient`",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+src = ["packages/core/src", "packages/plugins/src", "packages/sdk/src", "cli/src", "apps/api/src"]
+extend-exclude = ["apps/web", "apps/api/src/artifactdiff_api/web"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF", "PL", "C4"]
+ignore = [
+  "PLR0911", "PLR0912", "PLR0913", "PLR0915", "PLR0917", "PLR2004", "PLC0415", "S101", "RUF012", "PLW2901",
+  "PLC0206",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "PLR", "B", "RUF001"]
+# Only identifiers quoted with q() are interpolated into SQL; values are never interpolated.
+"packages/plugins/src/artifactdiff_plugins/sqlite.py" = ["S608"]
+# Markdown escaping intentionally maps backticks to a look-alike modifier letter.
+"packages/core/src/artifactdiff/reporting/markdown.py" = ["RUF001"]
+# git is called with list argv (no shell) and validated refs; the API URL is GitHub's GITHUB_API_URL.
+"integrations/github-action/run.py" = ["S603", "S607", "S310"]
+"scripts/**" = ["S", "PLR", "E501", "RUF001"]  # prose in docs generators
+"examples/**" = ["S", "PLR"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+mypy_path = "packages/core/src:packages/plugins/src:packages/sdk/src:cli/src:apps/api/src"
+packages = ["artifactdiff", "artifactdiff_plugins", "artifactdiff_sdk", "artifactdiff_cli", "artifactdiff_api"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["soundfile", "pypdfium2", "pypdfium2.*", "pyarrow", "pyarrow.*", "safetensors", "safetensors.*", "alembic", "alembic.*"]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["artifactdiff", "artifactdiff_plugins", "artifactdiff_cli", "artifactdiff_api", "artifactdiff_sdk"]

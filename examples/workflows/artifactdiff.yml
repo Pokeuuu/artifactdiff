@@ -1,0 +1,30 @@
+# Copy to .github/workflows/artifactdiff.yml in your repository.
+name: ArtifactDiff
+
+on:
+  pull_request: # never pull_request_target: see docs/github-action.md
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read # read the commits
+  pull-requests: write # only needed for comment-on-pr
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # base and head commits must both be available
+          # lfs: true    # see docs/github-action.md if artifacts live in Git LFS
+      - uses: Pokeuuu/artifactdiff@v1
+        with:
+          base: ${{ github.event.pull_request.base.sha }}
+          head: ${{ github.event.pull_request.head.sha }}
+          report-format: markdown
+          comment-on-pr: true
+          # paths: |
+          #   models/**
+          #   data/**
+          # exclude: "*.tmp"
+          # fail-on: high

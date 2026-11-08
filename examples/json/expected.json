@@ -1,0 +1,37 @@
+{
+  "plugin": "json",
+  "status": "different",
+  "total_changes": 6,
+  "changes": [
+    [
+      "modified",
+      "data",
+      "$.model.name"
+    ],
+    [
+      "added",
+      "structure",
+      "$.model.layers[2]"
+    ],
+    [
+      "modified",
+      "data",
+      "$.model.layers[0].units"
+    ],
+    [
+      "added",
+      "structure",
+      "$.training.seed"
+    ],
+    [
+      "type_changed",
+      "schema",
+      "$.training.epochs"
+    ],
+    [
+      "removed",
+      "structure",
+      "$.tags[1]"
+    ]
+  ]
+}

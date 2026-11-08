@@ -1,0 +1,30 @@
+{
+  "model": {
+    "name": "resnet-v2",
+    "layers": [
+      {
+        "type": "conv",
+        "units": 128
+      },
+      {
+        "type": "relu"
+      },
+      {
+        "type": "dropout",
+        "rate": 0.5
+      },
+      {
+        "type": "dense",
+        "units": 10
+      }
+    ]
+  },
+  "training": {
+    "epochs": "20",
+    "lr": 0.001,
+    "seed": 42
+  },
+  "tags": [
+    "vision"
+  ]
+}

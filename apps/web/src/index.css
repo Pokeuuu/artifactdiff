@@ -1,0 +1,114 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Design tokens. Dark is the default; `html.light` switches. */
+:root,
+.dark {
+  color-scheme: dark;
+  --bg: #0b0d12;
+  --panel: #11141b;
+  --panel-2: #161a23;
+  --line: #232835;
+  --line-strong: #2f3646;
+  --fg: #e6e9ef;
+  --fg-2: #a9b0bf;
+  --fg-3: #737b8c;
+  --accent: #3987e5;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(57 135 229 / 0.14);
+  --add: #3fb68b;
+  --remove: #ef6461;
+  --modify: #d9a33b;
+  --info: #8b93a5;
+  --focus: #6ea8f0;
+  --series-1: #3987e5;
+  --grid: #222734;
+}
+
+html.light {
+  color-scheme: light;
+  --bg: #f7f7f5;
+  --panel: #ffffff;
+  --panel-2: #f1f2f4;
+  --line: #e2e4e9;
+  --line-strong: #cfd3db;
+  --fg: #12151c;
+  --fg-2: #4b5262;
+  --fg-3: #6b7282;
+  --accent: #2a78d6;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(42 120 214 / 0.1);
+  --add: #18805a;
+  --remove: #c93a37;
+  --modify: #95650a;
+  --info: #5f6676;
+  --focus: #2a78d6;
+  --series-1: #2a78d6;
+  --grid: #e8eaee;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-add: var(--add);
+  --color-remove: var(--remove);
+  --color-modify: var(--modify);
+  --color-info: var(--info);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', 'Cascadia Code', Menlo, Consolas, monospace;
+  --animate-fade-in: fade-in 160ms ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

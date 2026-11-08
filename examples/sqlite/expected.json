@@ -1,0 +1,57 @@
+{
+  "plugin": "sqlite",
+  "status": "different",
+  "total_changes": 10,
+  "changes": [
+    [
+      "removed",
+      "schema",
+      "table:legacy"
+    ],
+    [
+      "added",
+      "schema",
+      "table:audit"
+    ],
+    [
+      "added",
+      "schema",
+      "table:users/column:active"
+    ],
+    [
+      "modified",
+      "schema",
+      "index:idx_users_email"
+    ],
+    [
+      "removed",
+      "schema",
+      "trigger:trg"
+    ],
+    [
+      "removed",
+      "data",
+      "table:logs/old_row[1]"
+    ],
+    [
+      "added",
+      "data",
+      "table:logs/new_row[1]"
+    ],
+    [
+      "modified",
+      "data",
+      "table:users/row[id=2]"
+    ],
+    [
+      "removed",
+      "data",
+      "table:users/row[id=3]"
+    ],
+    [
+      "added",
+      "data",
+      "table:users/row[id=4]"
+    ]
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "plugin": "image",
+  "status": "different",
+  "total_changes": 3,
+  "changes": [
+    [
+      "added",
+      "metadata",
+      "text:Software"
+    ],
+    [
+      "modified",
+      "visual",
+      "pixels"
+    ],
+    [
+      "modified",
+      "visual",
+      "region[64,32,24x32]"
+    ]
+  ]
+}

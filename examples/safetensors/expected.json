@@ -1,0 +1,42 @@
+{
+  "plugin": "safetensors",
+  "status": "different",
+  "total_changes": 7,
+  "changes": [
+    [
+      "modified",
+      "metadata",
+      "metadata:version"
+    ],
+    [
+      "modified",
+      "metadata",
+      "file_size"
+    ],
+    [
+      "renamed",
+      "structure",
+      "tensor:embeddings.weight"
+    ],
+    [
+      "added",
+      "structure",
+      "tensor:layer2.weight"
+    ],
+    [
+      "modified",
+      "schema",
+      "tensor:head.weight/shape"
+    ],
+    [
+      "modified",
+      "data",
+      "tensor:layer1.weight/values"
+    ],
+    [
+      "modified",
+      "structure",
+      "parameters"
+    ]
+  ]
+}

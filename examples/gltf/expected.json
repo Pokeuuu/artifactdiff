@@ -1,0 +1,37 @@
+{
+  "plugin": "gltf",
+  "status": "different",
+  "total_changes": 6,
+  "changes": [
+    [
+      "modified",
+      "geometry",
+      "mesh:CubeMesh/primitive[0]/geometry"
+    ],
+    [
+      "added",
+      "structure",
+      "mesh:TriMesh2"
+    ],
+    [
+      "added",
+      "structure",
+      "node:Extra"
+    ],
+    [
+      "modified",
+      "geometry",
+      "node:Marker/transform"
+    ],
+    [
+      "modified",
+      "material",
+      "material:Red/baseColorFactor"
+    ],
+    [
+      "modified",
+      "geometry",
+      "scene/bounding_box"
+    ]
+  ]
+}

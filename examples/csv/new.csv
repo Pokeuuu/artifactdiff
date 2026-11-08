@@ -1,0 +1,11 @@
+id,name,age,score,country
+1,user1,21,99.5,US
+2,user2,22,53.0,US
+4,user4,24,56.0,US
+5,user5,25,57.5,US
+6,renamed,26,59.0,US
+7,user7,,60.5,US
+8,user8,28,62.0,US
+9,user9,29,63.5,US
+10,user10,30,65.0,US
+11,user11,31,66.0,NZ

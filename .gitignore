@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node / web
+node_modules/
+apps/web/dist/
+apps/web/test-results/
+apps/web/playwright-report/
+apps/web/*.tsbuildinfo
+apps/web/tsconfig.tsbuildinfo
+
+# Built web UI copied into the API package by scripts/build_web.py
+apps/api/src/artifactdiff_api/web/
+
+# Local data and reports
+.env
+artifactdiff-report/
+reports/
+*.db-wal
+*.db-shm
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

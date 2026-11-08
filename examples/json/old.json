@@ -1,0 +1,26 @@
+{
+  "model": {
+    "name": "resnet",
+    "layers": [
+      {
+        "type": "conv",
+        "units": 64
+      },
+      {
+        "type": "relu"
+      },
+      {
+        "type": "dense",
+        "units": 10
+      }
+    ]
+  },
+  "training": {
+    "epochs": 10,
+    "lr": 0.001
+  },
+  "tags": [
+    "vision",
+    "baseline"
+  ]
+}

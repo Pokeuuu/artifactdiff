@@ -1,0 +1,607 @@
+{
+  "$defs": {
+    "ArtifactFormat": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Stable format identifier, e.g. 'json' or 'safetensors'.",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "extensions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Extensions",
+          "type": "array"
+        },
+        "mime_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mime Types",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "ArtifactFormat",
+      "type": "object"
+    },
+    "ArtifactMetadata": {
+      "additionalProperties": false,
+      "description": "Facts about one input file. ``properties`` comes from the plugin's ``inspect``.",
+      "properties": {
+        "name": {
+          "description": "Display name (file name or repository path).",
+          "title": "Name",
+          "type": "string"
+        },
+        "size_bytes": {
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "format": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactFormat"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "detected_by": {
+          "anyOf": [
+            {
+              "enum": [
+                "signature",
+                "mime",
+                "extension",
+                "content",
+                "explicit"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detected By"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": true,
+          "title": "Properties"
+        }
+      },
+      "required": [
+        "name",
+        "size_bytes",
+        "sha256"
+      ],
+      "title": "ArtifactMetadata",
+      "type": "object"
+    },
+    "Asset": {
+      "additionalProperties": false,
+      "description": "A generated visualization (heatmap, waveform, preview...). Never the raw input file.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "role": {
+          "description": "e.g. 'old-preview', 'new-preview', 'heatmap', 'overlay', 'waveform'.",
+          "title": "Role",
+          "type": "string"
+        },
+        "media_type": {
+          "title": "Media Type",
+          "type": "string"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Width"
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Height"
+        },
+        "data_base64": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Inline data. Stripped by the API, which serves assets separately.",
+          "title": "Data Base64"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "size_bytes": {
+          "default": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "role",
+        "media_type"
+      ],
+      "title": "Asset",
+      "type": "object"
+    },
+    "Change": {
+      "additionalProperties": false,
+      "description": "A single verified difference between the old and the new artifact.",
+      "properties": {
+        "id": {
+          "description": "Stable identifier derived from plugin, kind, category and path.",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ChangeKind"
+        },
+        "category": {
+          "$ref": "#/$defs/ChangeCategory"
+        },
+        "severity": {
+          "$ref": "#/$defs/ChangeSeverity"
+        },
+        "path": {
+          "description": "Structural location, e.g. '$.model.layers[2]' or 'table:users/row[id=4]'.",
+          "title": "Path",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "old_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Old Value"
+        },
+        "new_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "New Value"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Only set for inferred changes (e.g. renames). Heuristic, not a probability.",
+          "title": "Confidence"
+        },
+        "evidence": {
+          "description": "How the change was detected, so it can be verified.",
+          "title": "Evidence",
+          "type": "string"
+        },
+        "details": {
+          "additionalProperties": true,
+          "title": "Details",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "category",
+        "severity",
+        "path",
+        "description",
+        "evidence"
+      ],
+      "title": "Change",
+      "type": "object"
+    },
+    "ChangeCategory": {
+      "description": "Which aspect of the artifact the change concerns.",
+      "enum": [
+        "structure",
+        "schema",
+        "data",
+        "metadata",
+        "visual",
+        "geometry",
+        "material",
+        "audio",
+        "statistics",
+        "text",
+        "binary"
+      ],
+      "title": "ChangeCategory",
+      "type": "string"
+    },
+    "ChangeKind": {
+      "description": "What happened to the element at ``Change.path``.",
+      "enum": [
+        "added",
+        "removed",
+        "modified",
+        "type_changed",
+        "renamed",
+        "moved"
+      ],
+      "title": "ChangeKind",
+      "type": "string"
+    },
+    "ChangeSeverity": {
+      "description": "Heuristic impact level assigned by the plugin. Documented per plugin.",
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "ChangeSeverity",
+      "type": "string"
+    },
+    "ComparisonStatistics": {
+      "additionalProperties": false,
+      "properties": {
+        "total_changes": {
+          "default": 0,
+          "title": "Total Changes",
+          "type": "integer"
+        },
+        "reported_changes": {
+          "default": 0,
+          "description": "Changes included in the result (may be capped).",
+          "title": "Reported Changes",
+          "type": "integer"
+        },
+        "by_kind": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Kind",
+          "type": "object"
+        },
+        "by_category": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Category",
+          "type": "object"
+        },
+        "by_severity": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Severity",
+          "type": "object"
+        },
+        "max_severity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ChangeSeverity"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "metrics": {
+          "additionalProperties": true,
+          "description": "Plugin-specific measured quantities (documented per plugin).",
+          "title": "Metrics",
+          "type": "object"
+        },
+        "duration_ms": {
+          "default": 0.0,
+          "title": "Duration Ms",
+          "type": "number"
+        }
+      },
+      "title": "ComparisonStatistics",
+      "type": "object"
+    },
+    "ComparisonStatus": {
+      "enum": [
+        "identical",
+        "equivalent",
+        "different",
+        "error",
+        "unsupported"
+      ],
+      "title": "ComparisonStatus",
+      "type": "string"
+    },
+    "ComparisonWarning": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "description": "Machine-readable code, e.g. 'pk-auto-selected'.",
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ComparisonWarning",
+      "type": "object"
+    },
+    "PluginRef": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "title": "PluginRef",
+      "type": "object"
+    },
+    "Reproducibility": {
+      "additionalProperties": false,
+      "properties": {
+        "artifactdiff_version": {
+          "title": "Artifactdiff Version",
+          "type": "string"
+        },
+        "plugin": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PluginRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "python_version": {
+          "title": "Python Version",
+          "type": "string"
+        },
+        "platform": {
+          "title": "Platform",
+          "type": "string"
+        },
+        "libraries": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Libraries",
+          "type": "object"
+        },
+        "options_sha256": {
+          "title": "Options Sha256",
+          "type": "string"
+        },
+        "old_sha256": {
+          "title": "Old Sha256",
+          "type": "string"
+        },
+        "new_sha256": {
+          "title": "New Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifactdiff_version",
+        "plugin",
+        "python_version",
+        "platform",
+        "options_sha256",
+        "old_sha256",
+        "new_sha256"
+      ],
+      "title": "Reproducibility",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "artifactdiff_version": {
+      "title": "Artifactdiff Version",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ComparisonStatus"
+    },
+    "plugin": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PluginRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "old": {
+      "$ref": "#/$defs/ArtifactMetadata"
+    },
+    "new": {
+      "$ref": "#/$defs/ArtifactMetadata"
+    },
+    "options": {
+      "additionalProperties": true,
+      "title": "Options",
+      "type": "object"
+    },
+    "summary": {
+      "default": "",
+      "title": "Summary",
+      "type": "string"
+    },
+    "changes": {
+      "items": {
+        "$ref": "#/$defs/Change"
+      },
+      "title": "Changes",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "$ref": "#/$defs/ComparisonWarning"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "statistics": {
+      "$ref": "#/$defs/ComparisonStatistics"
+    },
+    "assets": {
+      "items": {
+        "$ref": "#/$defs/Asset"
+      },
+      "title": "Assets",
+      "type": "array"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error"
+    },
+    "reproducibility": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Reproducibility"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "fingerprint": {
+      "default": "",
+      "description": "sha256 over inputs, plugin, options, changes and warnings; stable across runs.",
+      "title": "Fingerprint",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifactdiff_version",
+    "created_at",
+    "status",
+    "old",
+    "new"
+  ],
+  "title": "ComparisonResult",
+  "type": "object"
+}

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "artifactdiff-plugin-ini"
+version = "1.0.0"
+description = "Example third-party ArtifactDiff plugin: section-aware comparison of INI files"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+dependencies = ["artifactdiff>=0.1.0"]
+
+# Discovered by ArtifactDiff, but only loaded after the user adds "ini" to [plugins].enabled.
+[project.entry-points."artifactdiff.plugins"]
+ini = "artifactdiff_plugin_ini.plugin:IniPlugin"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/artifactdiff_plugin_ini"]

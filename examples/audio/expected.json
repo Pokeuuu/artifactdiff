@@ -1,0 +1,72 @@
+{
+  "plugin": "audio",
+  "status": "different",
+  "total_changes": 13,
+  "changes": [
+    [
+      "modified",
+      "audio",
+      "duration"
+    ],
+    [
+      "modified",
+      "audio",
+      "level:rms_dbfs"
+    ],
+    [
+      "modified",
+      "audio",
+      "level:peak_dbfs"
+    ],
+    [
+      "modified",
+      "audio",
+      "silence:trailing"
+    ],
+    [
+      "modified",
+      "audio",
+      "silence:total"
+    ],
+    [
+      "modified",
+      "audio",
+      "spectrum:20-63Hz"
+    ],
+    [
+      "modified",
+      "audio",
+      "spectrum:63-125Hz"
+    ],
+    [
+      "modified",
+      "audio",
+      "spectrum:125-250Hz"
+    ],
+    [
+      "modified",
+      "audio",
+      "spectrum:250-500Hz"
+    ],
+    [
+      "modified",
+      "audio",
+      "spectrum:500-1000Hz"
+    ],
+    [
+      "modified",
+      "audio",
+      "spectrum:1000-2000Hz"
+    ],
+    [
+      "modified",
+      "audio",
+      "spectrum:2000-4000Hz"
+    ],
+    [
+      "modified",
+      "audio",
+      "time[0.000s-1.000s]"
+    ]
+  ]
+}

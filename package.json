@@ -1,0 +1,13 @@
+{
+  "name": "artifactdiff-monorepo",
+  "private": true,
+  "description": "Convenience scripts. Python packages are managed by pyproject.toml/uv; the web app (and its lockfile) lives in apps/web.",
+  "scripts": {
+    "postinstall": "npm --prefix apps/web ci",
+    "dev": "npm --prefix apps/web run dev",
+    "build": "npm --prefix apps/web run build",
+    "lint": "npm --prefix apps/web run lint",
+    "typecheck": "npm --prefix apps/web run typecheck",
+    "e2e": "npm --prefix apps/web run e2e"
+  }
+}

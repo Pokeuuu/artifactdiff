@@ -1,0 +1,27 @@
+{
+  "plugin": "pdf",
+  "status": "different",
+  "total_changes": 4,
+  "changes": [
+    [
+      "modified",
+      "metadata",
+      "metadata:Title"
+    ],
+    [
+      "added",
+      "structure",
+      "page[3]"
+    ],
+    [
+      "modified",
+      "text",
+      "page[1]/lines[2-2]"
+    ],
+    [
+      "modified",
+      "visual",
+      "page[1]/render"
+    ]
+  ]
+}

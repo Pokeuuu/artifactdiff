@@ -1,0 +1,72 @@
+{
+  "plugin": "parquet",
+  "status": "different",
+  "total_changes": 13,
+  "changes": [
+    [
+      "added",
+      "schema",
+      "column:note"
+    ],
+    [
+      "modified",
+      "schema",
+      "column:id/nullable"
+    ],
+    [
+      "type_changed",
+      "schema",
+      "column:qty"
+    ],
+    [
+      "modified",
+      "metadata",
+      "file:compression"
+    ],
+    [
+      "modified",
+      "data",
+      "row[id=2]"
+    ],
+    [
+      "removed",
+      "data",
+      "row[id=3]"
+    ],
+    [
+      "added",
+      "data",
+      "row[id=5]"
+    ],
+    [
+      "modified",
+      "statistics",
+      "column:id/mean"
+    ],
+    [
+      "modified",
+      "statistics",
+      "column:id/std"
+    ],
+    [
+      "modified",
+      "statistics",
+      "column:id/max"
+    ],
+    [
+      "modified",
+      "statistics",
+      "column:price/mean"
+    ],
+    [
+      "modified",
+      "statistics",
+      "column:price/std"
+    ],
+    [
+      "modified",
+      "statistics",
+      "column:price/max"
+    ]
+  ]
+}
