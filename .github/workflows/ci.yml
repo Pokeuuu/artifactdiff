@@ -109,6 +109,6 @@ jobs:
       - name: Smoke-test the image
         run: |
           docker run -d --name ad -p 127.0.0.1:8000:8000 artifactdiff:ci
-          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8000/api/v1/health && break; sleep 1; done
+          for _ in $(seq 1 30); do curl -fsS http://127.0.0.1:8000/api/v1/health && break; sleep 1; done
           curl -fsS http://127.0.0.1:8000/ | grep -q ArtifactDiff
           docker rm -f ad
