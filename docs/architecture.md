@@ -21,7 +21,7 @@
 | `cli` | `artifactdiff_cli` | Typer commands, Rich rendering, doctor, demo |
 | `apps/api` | `artifactdiff_api` | FastAPI app, SQLAlchemy models, Alembic migrations, job manager, storage |
 | `apps/web` | — | React/TypeScript UI, talks only to the REST API |
-| `integrations/github-action` | — | Action runner; `action.yml` is at the repo root so `uses: owner/artifactdiff@v1` works |
+| `integrations/github-action` | — | Action runner; `action.yml` is at the repo root so `uses: Pokeuuu/artifactdiff@v0` works |
 
 All Python packages ship in one distribution (`artifactdiff`) with optional extras, so a single
 `pip install` gives a consistent set; the separation is enforced by import direction

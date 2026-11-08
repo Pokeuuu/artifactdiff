@@ -17,13 +17,16 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: Pokeuuu/artifactdiff@v1
+      - uses: Pokeuuu/artifactdiff@v0
         with:
           base: ${{ github.event.pull_request.base.sha }}
           head: ${{ github.event.pull_request.head.sha }}
           report-format: markdown
           comment-on-pr: true
 ```
+
+`@v0` follows the latest 0.x release (it becomes `@v1` from version 1.0; see [release.md](release.md)).
+For reproducible workflows, pin a release tag such as `@v0.1.0` or a full commit SHA.
 
 A copy-paste version lives in [`examples/workflows/artifactdiff.yml`](../examples/workflows/artifactdiff.yml).
 
@@ -68,7 +71,7 @@ A copy-paste version lives in [`examples/workflows/artifactdiff.yml`](../example
 
 ```yaml
       - id: diff
-        uses: Pokeuuu/artifactdiff@v1
+        uses: Pokeuuu/artifactdiff@v0
       - if: steps.diff.outputs.max-severity == 'high'
         run: echo "::notice::high-severity artifact changes in this PR"
 ```

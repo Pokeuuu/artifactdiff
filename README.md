@@ -103,7 +103,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: Pokeuuu/artifactdiff@v1
+      - uses: Pokeuuu/artifactdiff@v0
         with:
           base: ${{ github.event.pull_request.base.sha }}
           head: ${{ github.event.pull_request.head.sha }}
